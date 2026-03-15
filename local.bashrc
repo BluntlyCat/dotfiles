@@ -27,11 +27,18 @@ __parse_git_branch() {
     fi
 }
 
+__python_venv_info() {
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        printf "%s" "$(basename "$VIRTUAL_ENV")"
+    fi
+}
+
 __prompt_command() {
     local exit_code="$?"
     local status_icon
     local status_text
     local git_info=""
+    local venv_info=""
     local branch
 
     if [ "$exit_code" -eq 0 ]; then
@@ -44,10 +51,15 @@ __prompt_command() {
 
     branch="$(__parse_git_branch)"
     if [ -n "$branch" ]; then
-        git_info="${MAGENTA}[${branch}]"
+        git_info="${YELLOW}@${branch}"
     fi
 
-    PS1="${status_text}${git_info}${ucolor}\u@${ucolor}\h${WHITE}:${BLUE}\w\$ ${DEFAULT}"
+    venv="$(__python_venv_info)"
+    if [ -n "$venv" ]; then
+        venv_info="${BLUE}[${venv}]"
+    fi
+
+    PS1="${status_text}${venv_info} ${ucolor}\u@\h${WHITE}:${BLUE}\w${git_info}${WHITE}: ${DEFAULT}"
     PS2="${ucolor}# ${WHITE}:${WHITE}\W${WHITE}\$ ${DEFAULT}"
 }
 
