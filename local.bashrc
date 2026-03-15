@@ -32,11 +32,17 @@ checked='✓'
 ballot='✗'
 
 __parse_git_branch() {
-    local branch
-    branch=$(git branch --show-current 2>/dev/null || true)
-    if [ -n "$branch" ]; then
-        printf '%s' "$branch"
-    fi
+    git rev-parse --is-inside-work-tree &>/dev/null || return
+
+    branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD)
+
+    dirty=""
+    staged=""
+
+    git diff --quiet --ignore-submodules HEAD 2>/dev/null || dirty="*"
+    git diff --cached --quiet 2>/dev/null || staged="+"
+
+    printf "%s%s%s" "$branch" "$staged" "$dirty"
 }
 
 __python_venv_info() {
