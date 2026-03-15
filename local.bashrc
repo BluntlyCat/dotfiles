@@ -47,7 +47,7 @@ __prompt_command() {
         status_icon="${RED}${ballot}"
     fi
 
-    status_text="${WHITE}[${exit_code} ${status_icon}${WHITE}] "
+    status_text="${WHITE}[${exit_code} ${status_icon}${WHITE}]"
 
     branch="$(__parse_git_branch)"
     if [ -n "$branch" ]; then
