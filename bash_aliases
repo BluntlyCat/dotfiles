@@ -1,5 +1,3 @@
-alias su='ownsu'
-
 alias cd..='cd ..'
 alias cd...='cd ../..'
 
