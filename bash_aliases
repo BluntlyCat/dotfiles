@@ -20,5 +20,3 @@ alias la='ls -la'
 
 alias bashconf='vim $HOME/.bashrc'
 alias aliasconf='vim $HOME/.bash_aliases'
-
-alias dmesg='sudo dmesg -T'
